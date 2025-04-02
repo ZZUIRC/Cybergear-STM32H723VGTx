@@ -1,3 +1,3 @@
-CYbergear+STM32H723VGTX(达妙STM32开发板H723 DM-MC02机器人轮足控制板机械臂板载BMI088)
+2*CYbergear+STM32H723VGTX(达妙STM32开发板H723 DM-MC02机器人轮足控制板机械臂板载BMI088)
 
 CUBEMAX+keil5
