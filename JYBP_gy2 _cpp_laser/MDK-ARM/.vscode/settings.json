@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        //"cybergear_can_interface_stm32.h": "c"
+         //"cybergear_can_interface_stm32.h": "cpp"
+           "main.c": "cpp"
+    }
+}
