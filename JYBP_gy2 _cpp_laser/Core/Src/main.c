@@ -207,13 +207,13 @@ int main(void)
         // 执行定时器中断触发的逻辑
 
         if (pinState == GPIO_PIN_SET) {
-          driver1_.motor_control(0.0, 0.1, 0.0, 15, 1);
+         // driver1_.motor_control(0.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver2_.motor_control(0.0, 0.1, 0.0, 15, 1);
+       //   driver2_.motor_control(0.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver1_.motor_control(1.0, 0.1, 0.0, 15, 1);
+        //  driver1_.motor_control(1.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver2_.motor_control(1.0, 0.1, 0.0, 15, 1);
+        //  driver2_.motor_control(1.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
           //HAL_FDCAN_AddMessageToTxFifoQ(hfdcan2, &TxHeader, data);
           //cybergear_can_interface_.send_message(0x12345678, test_data, 8, true);
@@ -227,7 +227,7 @@ int main(void)
         is_timer2_interrupt_triggered = 0;      // 清除标志位
     }
 
-    if (is_timer2_interrupt_triggered)
+    if (is_timer3_interrupt_triggered)
     {
         // 执行定时器中断触发的逻辑
         AD_Can.Send_ADC_Read();
@@ -236,7 +236,10 @@ int main(void)
         while (!ADcan_data_received && (HAL_GetTick() - tickstart) < 100)
             {
                 HAL_Delay(1);
-                if (ADcan_data_received)
+
+            }
+						
+			 if (ADcan_data_received)
             {
               AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
               ch6_raw = (AD_Return[2] << 8) | AD_Return[3];
@@ -248,7 +251,6 @@ int main(void)
             else
             {
 
-            }
             }
 
      //   unsigned long id_return_AD;

@@ -12,7 +12,7 @@
 #define CMD_RAM_WRITE 18
 #define CMD_GET_MOTOR_FAIL 21
 
-#define AD_AA 0XAA
+#define AD_AA 0X00
 
 #define ADDR_RUN_MODE 0x7005
 #define ADDR_IQ_REF 0x7006

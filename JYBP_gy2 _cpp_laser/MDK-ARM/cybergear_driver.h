@@ -387,7 +387,7 @@ private:
   uint8_t master_can_id_;             //!< master can id
   uint8_t target_can_id_;             //!< target can id
   uint8_t run_mode_;                  //!< run mode
-  uint8_t receive_buffer_[64];        //!< receive buffer
+  uint8_t receive_buffer_[8];        //!< receive buffer
   MotorStatus motor_status_;          //!< current motor status
   MotorParameter motor_param_;        //!< motor parameter
   unsigned long send_count_;          //!< send count

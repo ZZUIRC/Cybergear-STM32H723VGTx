@@ -185,8 +185,8 @@ void CybergearDriver::change_motor_can_id(uint8_t can_id)
 
 void CybergearDriver::Send_ADC_Read()
 {
-  uint8_t data[8] = {0x00};
-  uint16_t option = 0xAA << 8 | 0X06 ;
+  uint8_t data[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+  uint16_t option = 0xAA << 8 | 0x06 ;
   send_command(target_can_id_, AD_AA, option, 8, data);
 }
 
