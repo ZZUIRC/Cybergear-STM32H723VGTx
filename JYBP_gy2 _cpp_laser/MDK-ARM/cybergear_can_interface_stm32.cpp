@@ -1,7 +1,19 @@
 #include "cybergear_can_interface_stm32.h"
 #include "ad_can.h" // 新增：包含共享頭文件
 
-CybergearCanInterfaceStm32::CybergearCanInterfaceStm32() : CybergearCanInterface() {}
+CybergearCanInterfaceStm32::CybergearCanInterfaceStm32() : CybergearCanInterface() {
+		hfdcan_ = nullptr;
+    tx_header_.Identifier = 0;
+    tx_header_.IdType = FDCAN_EXTENDED_ID;
+    tx_header_.FDFormat = FDCAN_CLASSIC_CAN;
+    tx_header_.DataLength = FDCAN_DLC_BYTES_0;
+    tx_header_.TxFrameType = FDCAN_DATA_FRAME;
+    tx_header_.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    tx_header_.BitRateSwitch = FDCAN_BRS_OFF;
+    tx_header_.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    tx_header_.MessageMarker = 0;
+    memset(tx_data_, 0, sizeof(tx_data_));
+}
 
 CybergearCanInterfaceStm32::~CybergearCanInterfaceStm32() {};
 
@@ -15,8 +27,11 @@ bool CybergearCanInterfaceStm32::initCan(FDCAN_HandleTypeDef* hfdcan)
   sFilterConfig.FilterIndex = 1;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  sFilterConfig.FilterID1 = 0x0;
-  sFilterConfig.FilterID2 = 0x0;
+  //sFilterConfig.FilterID1 = 0xAA0601;
+  //sFilterConfig.FilterID2 = 0x00FFFFFF;
+	
+	sFilterConfig.FilterID1 = 0x00;
+  sFilterConfig.FilterID2 = 0x00;
   HAL_FDCAN_ConfigFilter(hfdcan_, &sFilterConfig);
   HAL_FDCAN_ConfigGlobalFilter(hfdcan_, FDCAN_REJECT, FDCAN_REJECT, FDCAN_REJECT_REMOTE, FDCAN_REJECT_REMOTE);
   HAL_FDCAN_ConfigFifoWatermark(hfdcan_, FDCAN_CFG_RX_FIFO0, 1);

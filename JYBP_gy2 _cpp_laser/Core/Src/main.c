@@ -153,25 +153,32 @@ int main(void)
 
 	CybergearCanInterfaceStm32 cybergear_can_interface_1;  //AD_Can  can_1
 	CybergearCanInterfaceStm32 cybergear_can_interface_2;  // Motor control can_2
-
-  cybergear_can_interface_1.initCan(&hfdcan1);
-	cybergear_can_interface_2.initCan(&hfdcan2);
-
+	
+  cybergear_can_interface_2.initCan(&hfdcan2);
+	cybergear_can_interface_1.initCan(&hfdcan1);
 
   CybergearDriver driver1_(0xFD, 0x001);
   CybergearDriver driver2_(0xFD, 0x002);
-  CybergearDriver AD_Can(0xFD, 0x001);
+	
+	CybergearDriver AD_Can(0x00, 0x001);
 
 
   driver1_.init(&cybergear_can_interface_2);
   driver2_.init(&cybergear_can_interface_2);
-  AD_Can.init(&cybergear_can_interface_1);
-
+	AD_Can.init(&cybergear_can_interface_1);
+	
+	
+	//uint8_t test_data[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+	//cybergear_can_interface_1.send_message(0x00AA0601, test_data, 8, true);
+	//cybergear_can_interface_1.reset_motor();
+	
   driver1_.reset_motor();
   driver1_.set_mech_position_to_zero();
   driver1_.enable_motor();
   driver1_.set_run_mode(CMD_CONTROL);
+	cybergear_can_interface_2.send_message(0x00AA0601, test_data, 8, true);
 
+0
   driver2_.reset_motor();
 	//d2_runmode=driver2_.	get_run_mode();
   driver2_.set_mech_position_to_zero();
@@ -207,13 +214,13 @@ int main(void)
         // 执行定时器中断触发的逻辑
 
         if (pinState == GPIO_PIN_SET) {
-          driver1_.motor_control(0.0, 0.1, 0.0, 15, 1);
+         // driver1_.motor_control(0.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver2_.motor_control(0.0, 0.1, 0.0, 15, 1);
+       //   driver2_.motor_control(0.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver1_.motor_control(1.0, 0.1, 0.0, 15, 1);
+        //  driver1_.motor_control(1.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
-          driver2_.motor_control(1.0, 0.1, 0.0, 15, 1);
+        //  driver2_.motor_control(1.0, 0.1, 0.0, 15, 1);
           HAL_Delay(500);
           //HAL_FDCAN_AddMessageToTxFifoQ(hfdcan2, &TxHeader, data);
           //cybergear_can_interface_.send_message(0x12345678, test_data, 8, true);
@@ -227,7 +234,7 @@ int main(void)
         is_timer2_interrupt_triggered = 0;      // 清除标志位
     }
 
-    if (is_timer2_interrupt_triggered)
+    if (is_timer3_interrupt_triggered)
     {
         // 执行定时器中断触发的逻辑
         AD_Can.Send_ADC_Read();
@@ -236,7 +243,10 @@ int main(void)
         while (!ADcan_data_received && (HAL_GetTick() - tickstart) < 100)
             {
                 HAL_Delay(1);
-                if (ADcan_data_received)
+
+            }
+						
+			 if (ADcan_data_received)
             {
               AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
               ch6_raw = (AD_Return[2] << 8) | AD_Return[3];
@@ -248,7 +258,6 @@ int main(void)
             else
             {
 
-            }
             }
 
      //   unsigned long id_return_AD;
@@ -265,7 +274,7 @@ int main(void)
 
 
 
-  }
+   }
   /* USER CODE END 3 */
 }
 
