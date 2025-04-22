@@ -64,7 +64,6 @@ Section Cross References
     main.o(i.main) refers to cybergear_can_interface_stm32.o(i._ZN26CybergearCanInterfaceStm327initCanEP19FDCAN_HandleTypeDef) for CybergearCanInterfaceStm32::initCan(FDCAN_HandleTypeDef*)
     main.o(i.main) refers to cybergear_driver.o(i._ZN15CybergearDriverC1Ehh) for CybergearDriver::CybergearDriver(unsigned char, unsigned char)
     main.o(i.main) refers to cybergear_driver.o(i._ZN15CybergearDriver4initEP21CybergearCanInterfacet) for CybergearDriver::init(CybergearCanInterface*, unsigned short)
-    main.o(i.main) refers to cybergear_can_interface_stm32.o(i._ZN26CybergearCanInterfaceStm3212send_messageEjPKhhb) for CybergearCanInterfaceStm32::send_message(unsigned, const unsigned char*, unsigned char, bool)
     main.o(i.main) refers to cybergear_driver.o(i._ZN15CybergearDriver11reset_motorEv) for CybergearDriver::reset_motor()
     main.o(i.main) refers to cybergear_driver.o(i._ZN15CybergearDriver25set_mech_position_to_zeroEv) for CybergearDriver::set_mech_position_to_zero()
     main.o(i.main) refers to cybergear_driver.o(i._ZN15CybergearDriver12enable_motorEv) for CybergearDriver::enable_motor()
@@ -6042,18 +6041,18 @@ Image Symbol Table
     i.__sti___8_char_cpp_a3dc957a            0x08003ca4   Section        0  char.o(i.__sti___8_char_cpp_a3dc957a)
     __sti___8_char_cpp_a3dc957a              0x08003ca5   Thumb Code    12  char.o(i.__sti___8_char_cpp_a3dc957a)
     i.main                                   0x08003cb4   Section        0  main.o(i.main)
-    t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev 0x08003edc   Section        0  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
-    x$fpl$fpinit                             0x08003eea   Section       10  fpinit.o(x$fpl$fpinit)
-    $v0                                      0x08003eea   Number         0  fpinit.o(x$fpl$fpinit)
-    .constdata                               0x08003ef4   Section       92  stm32h7xx_hal_fdcan.o(.constdata)
-    DLCtoBytes                               0x08003ef4   Data          16  stm32h7xx_hal_fdcan.o(.constdata)
-    .constdata                               0x08003f50   Section       16  system_stm32h7xx.o(.constdata)
-    .constdata__ZTV15CybergearDriver         0x08003f60   Section       16  cybergear_driver.o(.constdata__ZTV15CybergearDriver)
-    .constdata__ZTV26CybergearCanInterfaceStm32 0x08003f70   Section       32  cybergear_can_interface_stm32.o(.constdata__ZTV26CybergearCanInterfaceStm32)
-    .init_array                              0x08003fd0   Section        4  char.o(.init_array)
-    .init_array                              0x08003fd4   Section        4  locale.o(.init_array)
-    .init_array                              0x08003fd8   Section        4  rwcats.o(.init_array)
-    .init_array                              0x08003fdc   Section        0  init_aeabi.o(.init_array)
+    t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev 0x08003ea8   Section        0  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
+    x$fpl$fpinit                             0x08003eb6   Section       10  fpinit.o(x$fpl$fpinit)
+    $v0                                      0x08003eb6   Number         0  fpinit.o(x$fpl$fpinit)
+    .constdata                               0x08003ec0   Section       92  stm32h7xx_hal_fdcan.o(.constdata)
+    DLCtoBytes                               0x08003ec0   Data          16  stm32h7xx_hal_fdcan.o(.constdata)
+    .constdata                               0x08003f1c   Section       16  system_stm32h7xx.o(.constdata)
+    .constdata__ZTV15CybergearDriver         0x08003f2c   Section       16  cybergear_driver.o(.constdata__ZTV15CybergearDriver)
+    .constdata__ZTV26CybergearCanInterfaceStm32 0x08003f3c   Section       32  cybergear_can_interface_stm32.o(.constdata__ZTV26CybergearCanInterfaceStm32)
+    .init_array                              0x08003f9c   Section        4  char.o(.init_array)
+    .init_array                              0x08003fa0   Section        4  locale.o(.init_array)
+    .init_array                              0x08003fa4   Section        4  rwcats.o(.init_array)
+    .init_array                              0x08003fa8   Section        0  init_aeabi.o(.init_array)
     .data                                    0x20000000   Section       20  main.o(.data)
     .data                                    0x20000014   Section        4  stm32h7xx_hal_msp.o(.data)
     HAL_RCC_FDCAN_CLK_ENABLED                0x20000014   Data           4  stm32h7xx_hal_msp.o(.data)
@@ -6461,19 +6460,19 @@ Image Symbol Table
     operator delete (void*)                  0x08003c25   Thumb Code     8  delete.o(i._ZdlPv)
     operator new[] (unsigned)                0x08003c2d   Thumb Code     8  array_new.o(i._Znaj)
     operator new(unsigned)                   0x08003c35   Thumb Code    34  new.o(i._Znwj)
-    main                                     0x08003cb5   Thumb Code   518  main.o(i.main)
-    __rw::__rw_locale_vector<__rw::__rw_cat*>::~__rw_locale_vector() 0x08003edd   Thumb Code    14  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
-    __rw::__rw_locale_vector<__rw::__rw_cat*>::~__rw_locale_vector__sub_object() 0x08003edd   Thumb Code     0  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
-    _fp_init                                 0x08003eeb   Thumb Code    10  fpinit.o(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x08003ef3   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x08003ef3   Thumb Code     0  fpinit.o(x$fpl$fpinit)
-    D1CorePrescTable                         0x08003f50   Data          16  system_stm32h7xx.o(.constdata)
-    vtable for CybergearDriver               0x08003f60   Data          16  cybergear_driver.o(.constdata__ZTV15CybergearDriver)
-    vtable for CybergearCanInterfaceStm32    0x08003f70   Data          32  cybergear_can_interface_stm32.o(.constdata__ZTV26CybergearCanInterfaceStm32)
-    Region$$Table$$Base                      0x08003f90   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08003fd0   Number         0  anon$$obj.o(Region$$Table)
-    SHT$$INIT_ARRAY$$Base                    0x08003fd0   Number         0  char.o(.init_array)
-    SHT$$INIT_ARRAY$$Limit                   0x08003fdc   Number         0  init_aeabi.o(.init_array)
+    main                                     0x08003cb5   Thumb Code   480  main.o(i.main)
+    __rw::__rw_locale_vector<__rw::__rw_cat*>::~__rw_locale_vector() 0x08003ea9   Thumb Code    14  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
+    __rw::__rw_locale_vector<__rw::__rw_cat*>::~__rw_locale_vector__sub_object() 0x08003ea9   Thumb Code     0  rwcats.o(t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev)
+    _fp_init                                 0x08003eb7   Thumb Code    10  fpinit.o(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08003ebf   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08003ebf   Thumb Code     0  fpinit.o(x$fpl$fpinit)
+    D1CorePrescTable                         0x08003f1c   Data          16  system_stm32h7xx.o(.constdata)
+    vtable for CybergearDriver               0x08003f2c   Data          16  cybergear_driver.o(.constdata__ZTV15CybergearDriver)
+    vtable for CybergearCanInterfaceStm32    0x08003f3c   Data          32  cybergear_can_interface_stm32.o(.constdata__ZTV26CybergearCanInterfaceStm32)
+    Region$$Table$$Base                      0x08003f5c   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08003f9c   Number         0  anon$$obj.o(Region$$Table)
+    SHT$$INIT_ARRAY$$Base                    0x08003f9c   Number         0  char.o(.init_array)
+    SHT$$INIT_ARRAY$$Limit                   0x08003fa8   Number         0  init_aeabi.o(.init_array)
     is_timer2_interrupt_triggered            0x20000000   Data           1  main.o(.data)
     is_timer3_interrupt_triggered            0x20000001   Data           1  main.o(.data)
     ADcan_data_received                      0x20000002   Data           1  main.o(.data)
@@ -6507,9 +6506,9 @@ Memory Map of the image
 
   Image Entry point : 0x080002cd
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00004034, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00004000, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003fdc, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00003fa8, Max: 0x00100000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -6729,38 +6728,38 @@ Memory Map of the image
     0x08003c5c   0x08003c5c   0x00000010   Code   RO         6713    i.__sti___10_locale_cpp_ff99fc7b  cpp_ws.l(locale.o)
     0x08003c6c   0x08003c6c   0x00000038   Code   RO         7211    i.__sti___10_rwcats_cpp_64e8068e  cpp_ws.l(rwcats.o)
     0x08003ca4   0x08003ca4   0x00000010   Code   RO         6446    i.__sti___8_char_cpp_a3dc957a  cpp_ws.l(char.o)
-    0x08003cb4   0x08003cb4   0x00000228   Code   RO           22    i.main              main.o
-    0x08003edc   0x08003edc   0x0000000e   Code   RO         7227    t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev  cpp_ws.l(rwcats.o)
-    0x08003eea   0x08003eea   0x0000000a   Code   RO         7490    x$fpl$fpinit        fz_wv.l(fpinit.o)
-    0x08003ef4   0x08003ef4   0x0000005c   Data   RO          868    .constdata          stm32h7xx_hal_fdcan.o
-    0x08003f50   0x08003f50   0x00000010   Data   RO         5178    .constdata          system_stm32h7xx.o
-    0x08003f60   0x08003f60   0x00000010   Data   RO         5646    .constdata__ZTV15CybergearDriver  cybergear_driver.o
-    0x08003f70   0x08003f70   0x00000020   Data   RO         5278    .constdata__ZTV26CybergearCanInterfaceStm32  cybergear_can_interface_stm32.o
-    0x08003f90   0x08003f90   0x00000040   Data   RO         7691    Region$$Table       anon$$obj.o
-    0x08003fd0   0x08003fd0   0x00000004   Data   RO         6468    .init_array         cpp_ws.l(char.o)
-    0x08003fd4   0x08003fd0   0x00000004   Data   RO         6761    .init_array         cpp_ws.l(locale.o)
-    0x08003fd8   0x08003fd0   0x00000004   Data   RO         7221    .init_array         cpp_ws.l(rwcats.o)
-    0x08003fdc   0x08003fd0   0x00000000   Data   RO         7686    .init_array         c_w.l(init_aeabi.o)
+    0x08003cb4   0x08003cb4   0x000001f4   Code   RO           22    i.main              main.o
+    0x08003ea8   0x08003ea8   0x0000000e   Code   RO         7227    t._ZN4__rw18__rw_locale_vectorIPNS_8__rw_catEED1Ev  cpp_ws.l(rwcats.o)
+    0x08003eb6   0x08003eb6   0x0000000a   Code   RO         7490    x$fpl$fpinit        fz_wv.l(fpinit.o)
+    0x08003ec0   0x08003ec0   0x0000005c   Data   RO          868    .constdata          stm32h7xx_hal_fdcan.o
+    0x08003f1c   0x08003f1c   0x00000010   Data   RO         5178    .constdata          system_stm32h7xx.o
+    0x08003f2c   0x08003f2c   0x00000010   Data   RO         5646    .constdata__ZTV15CybergearDriver  cybergear_driver.o
+    0x08003f3c   0x08003f3c   0x00000020   Data   RO         5278    .constdata__ZTV26CybergearCanInterfaceStm32  cybergear_can_interface_stm32.o
+    0x08003f5c   0x08003f5c   0x00000040   Data   RO         7691    Region$$Table       anon$$obj.o
+    0x08003f9c   0x08003f9c   0x00000004   Data   RO         6468    .init_array         cpp_ws.l(char.o)
+    0x08003fa0   0x08003f9c   0x00000004   Data   RO         6761    .init_array         cpp_ws.l(locale.o)
+    0x08003fa4   0x08003f9c   0x00000004   Data   RO         7221    .init_array         cpp_ws.l(rwcats.o)
+    0x08003fa8   0x08003f9c   0x00000000   Data   RO         7686    .init_array         c_w.l(init_aeabi.o)
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003fdc, Size: 0x00000448, Max: 0x00020000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08003fa8, Size: 0x00000448, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08003fdc   0x00000014   Data   RW           42    .data               main.o
-    0x20000014   0x08003ff0   0x00000004   Data   RW          379    .data               stm32h7xx_hal_msp.o
-    0x20000018   0x08003ff4   0x0000000c   Data   RW         3000    .data               stm32h7xx_hal.o
-    0x20000024   0x08004000   0x00000008   Data   RW         6467    .data               cpp_ws.l(char.o)
-    0x2000002c   0x08004008   0x0000001c   Data   RW         6760    .data               cpp_ws.l(locale.o)
+    0x20000000   0x08003fa8   0x00000014   Data   RW           42    .data               main.o
+    0x20000014   0x08003fbc   0x00000004   Data   RW          379    .data               stm32h7xx_hal_msp.o
+    0x20000018   0x08003fc0   0x0000000c   Data   RW         3000    .data               stm32h7xx_hal.o
+    0x20000024   0x08003fcc   0x00000008   Data   RW         6467    .data               cpp_ws.l(char.o)
+    0x2000002c   0x08003fd4   0x0000001c   Data   RW         6760    .data               cpp_ws.l(locale.o)
     0x20000048        -       0x00000400   Zero   RW            1    STACK               startup_stm32h723xx.o
 
 
-    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08004024, Size: 0x00000448, Max: 0x00020000, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08003ff0, Size: 0x00000448, Max: 0x00020000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x24000000   0x08004024   0x00000008   Data   RW         5179    .data               system_stm32h7xx.o
-    0x24000008   0x0800402c   0x00000008   Data   RW         7220    .data               cpp_ws.l(rwcats.o)
+    0x24000000   0x08003ff0   0x00000008   Data   RW         5179    .data               system_stm32h7xx.o
+    0x24000008   0x08003ff8   0x00000008   Data   RW         7220    .data               cpp_ws.l(rwcats.o)
     0x24000010        -       0x000001d8   Zero   RW           33    .bss                main.o
     0x240001e8        -       0x00000060   Zero   RW         6978    .bss                c_w.l(libspace.o)
     0x24000248        -       0x00000200   Zero   RW            2    HEAP                startup_stm32h723xx.o
@@ -6773,25 +6772,25 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       484         28         32          0          0     929560   cybergear_can_interface_stm32.o
-       280          6         16          0          0      10220   cybergear_driver.o
-      1260         94          0         20        472    1206049   main.o
-        64         26        716          0       1536        888   startup_stm32h723xx.o
-       220         40          0         12          0      23957   stm32h7xx_hal.o
-       354         28          0          0          0    1225317   stm32h7xx_hal_cortex.o
-      2950         48         92          0          0      25283   stm32h7xx_hal_fdcan.o
-       566         44          0          0          0       3048   stm32h7xx_hal_gpio.o
-       448         40          0          4          0       3645   stm32h7xx_hal_msp.o
-        84          6          0          0          0        837   stm32h7xx_hal_pwr_ex.o
-      2234         66          0          0          0       5396   stm32h7xx_hal_rcc.o
-      2938         46          0          0          0       5315   stm32h7xx_hal_rcc_ex.o
-      1182         98          0          0          0      11077   stm32h7xx_hal_tim.o
-       190         38          0          0          0       3404   stm32h7xx_hal_tim_ex.o
-        92         36          0          0          0       7674   stm32h7xx_it.o
-       192         34         16          8          0       1534   system_stm32h7xx.o
+       484         28         32          0          0     929368   cybergear_can_interface_stm32.o
+       280          6         16          0          0      10016   cybergear_driver.o
+      1208         80          0         20        472    1205557   main.o
+        64         26        716          0       1536        872   startup_stm32h723xx.o
+       220         40          0         12          0      23813   stm32h7xx_hal.o
+       354         28          0          0          0    1224981   stm32h7xx_hal_cortex.o
+      2950         48         92          0          0      24759   stm32h7xx_hal_fdcan.o
+       566         44          0          0          0       2968   stm32h7xx_hal_gpio.o
+       448         40          0          4          0       3561   stm32h7xx_hal_msp.o
+        84          6          0          0          0        817   stm32h7xx_hal_pwr_ex.o
+      2234         66          0          0          0       5328   stm32h7xx_hal_rcc.o
+      2938         46          0          0          0       5251   stm32h7xx_hal_rcc_ex.o
+      1182         98          0          0          0      10825   stm32h7xx_hal_tim.o
+       190         38          0          0          0       3312   stm32h7xx_hal_tim_ex.o
+        92         36          0          0          0       7402   stm32h7xx_it.o
+       192         34         16          8          0       1478   system_stm32h7xx.o
 
     ----------------------------------------------------------------------
-     13560        678        936         44       2008    3463204   Object Totals
+     13508        664        936         44       2008    3460308   Object Totals
          0          0         64          0          0          0   (incl. Generated)
         22          0          0          0          0          0   (incl. Padding)
 
@@ -6881,15 +6880,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     15400        852        948         88       2104    3454588   Grand Totals
-     15400        852        948         88       2104    3454588   ELF Image Totals
-     15400        852        948         88          0          0   ROM Totals
+     15348        838        948         88       2104    3451692   Grand Totals
+     15348        838        948         88       2104    3451692   ELF Image Totals
+     15348        838        948         88          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                16348 (  15.96kB)
+    Total RO  Size (Code + RO Data)                16296 (  15.91kB)
     Total RW  Size (RW Data + ZI Data)              2192 (   2.14kB)
-    Total ROM Size (Code + RO Data + RW Data)      16436 (  16.05kB)
+    Total ROM Size (Code + RO Data + RW Data)      16384 (  16.00kB)
 
 ==============================================================================
 

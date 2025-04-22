@@ -176,9 +176,7 @@ int main(void)
   driver1_.set_mech_position_to_zero();
   driver1_.enable_motor();
   driver1_.set_run_mode(CMD_CONTROL);
-	cybergear_can_interface_2.send_message(0x00AA0601, test_data, 8, true);
-
-0
+	//cybergear_can_interface_2.send_message(0x00AA0601, test_data, 8, true);
   driver2_.reset_motor();
 	//d2_runmode=driver2_.	get_run_mode();
   driver2_.set_mech_position_to_zero();
