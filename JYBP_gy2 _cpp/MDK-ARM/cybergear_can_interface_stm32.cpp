@@ -1,6 +1,17 @@
 #include "cybergear_can_interface_stm32.h"
 
-CybergearCanInterfaceStm32::CybergearCanInterfaceStm32() : CybergearCanInterface() {}
+CybergearCanInterfaceStm32::CybergearCanInterfaceStm32() : CybergearCanInterface() {
+		hfdcan_ = nullptr;
+    tx_header_.Identifier = 0;
+    tx_header_.IdType = FDCAN_EXTENDED_ID;
+    tx_header_.FDFormat = FDCAN_CLASSIC_CAN;
+    tx_header_.DataLength = FDCAN_DLC_BYTES_0;
+    tx_header_.TxFrameType = FDCAN_DATA_FRAME;
+    tx_header_.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    tx_header_.BitRateSwitch = FDCAN_BRS_OFF;
+    tx_header_.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    tx_header_.MessageMarker = 0;
+    memset(tx_data_, 0, sizeof(tx_data_));}
 
 CybergearCanInterfaceStm32::~CybergearCanInterfaceStm32() {};
 
