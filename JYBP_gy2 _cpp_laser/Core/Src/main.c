@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ad_can.h" // 新增：包含共享頭文件
@@ -60,6 +59,8 @@ FDCAN_HandleTypeDef hfdcan2;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
+ UART_HandleTypeDef huart1; // ??????
+
 /* USER CODE BEGIN PV */
 
 float laser_filtered = 0;    // ???????
@@ -75,10 +76,10 @@ uint8_t AD_Return[8]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 uint8_t d2_runmode=0;
 uint8_t is_timer2_interrupt_triggered = 0; //Timer 2 1s motor
 uint8_t is_timer3_interrupt_triggered = 0; // AD converter & CAN  
-float ch6_value = 0.0f; // 第6路模擬量值（V 或 A）
-float ch8_value = 0.0f; // 第8路模擬量值（V 或 A）
+float ch6_value = 0.0f; // �?6路模擬量值（V �? A�?
+float ch8_value = 0.0f; // �?8路模擬量值（V �? A�?
 volatile uint8_t ADcan_data_received = 0; // CAN 數據接收標誌
-
+uint8_t rx_data[8]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -89,22 +90,25 @@ static void MX_FDCAN1_Init(void);
 static void MX_FDCAN2_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    if (htim->Instance == TIM2)  // 检查是否是 TIM2 的中断
+    if (htim->Instance == TIM2)  // �?查是否是 TIM2 的中�?
     {
-        // 设置标志位，通知主循环执行相应逻辑
+        // 设置标志位，通知主循环执行相应�?�辑
         is_timer2_interrupt_triggered = 1;
     }
-    if (htim->Instance == TIM3)  // 检查是否是 TIM3 的中断
+    if (htim->Instance == TIM3)  // �?查是否是 TIM3 的中�?
     {
-        // 设置标志位，通知主循环执行相应逻辑
+        // 设置标志位，通知主循环执行相应�?�辑
         is_timer3_interrupt_triggered = 1;
     }
 }
@@ -147,6 +151,7 @@ int main(void)
   MX_FDCAN2_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_Base_Start_IT(&htim3);
@@ -194,10 +199,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//			char msg[50];
+
+		//pinState= HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8);
+		//sprintf(msg, "PinState: %d\r\n", pinState);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
 		HAL_Delay(500); 
     unsigned long id_return_AD;
     uint8_t AD_lens;
@@ -205,7 +214,7 @@ int main(void)
     uint16_t ch6_raw=0 ;
     uint16_t ch8_raw=0;
 
-		GPIO_PinState pinState = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15);
+		GPIO_PinState pinState = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8);
 
     if (is_timer2_interrupt_triggered)
     {
@@ -229,7 +238,7 @@ int main(void)
                   driver1_.reset_motor();
                   HAL_Delay(500);
               }        
-        is_timer2_interrupt_triggered = 0;      // 清除标志位
+        is_timer2_interrupt_triggered = 0;      // 清除标志�?
     }
 
     if (is_timer3_interrupt_triggered)
@@ -246,12 +255,20 @@ int main(void)
 						
 			 if (ADcan_data_received)
             {
-              AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
-              ch6_raw = (AD_Return[2] << 8) | AD_Return[3];
-              ch8_raw = (AD_Return[6] << 8) | AD_Return[7];
-              ch6_value = (float)ch6_raw / 1000.0f;
+            //  AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
+              //ch6_raw = (AD_Return[2] << 8) | AD_Return[3];
+              ch8_raw = (rx_data[6] << 8) | rx_data[7];
+              //ch6_value = (float)ch6_raw / 1000.0f;
               ch8_value = (float)ch8_raw / 1000.0f;
               ADcan_data_received = 0; // 清除标志
+							
+							//pinState= HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8);
+							//sprintf(msg, "ch8: %d\r\n", ch8_value);
+							 //printf("Hello, STM32!\n");
+						//	 fflush(stdout);
+							//sprintf(msg, " ch8_id: %X\r\n ch8_va: %X\r\n", id_return_AD,AD_Return[7]);
+//							HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), 0xFFFF);
+
             }
             else
             {
@@ -261,7 +278,7 @@ int main(void)
      //   unsigned long id_return_AD;
     //    uint8_t AD_lens;
  //       AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
-        is_timer3_interrupt_triggered = 0;      // 清除标志位
+        is_timer3_interrupt_triggered = 0;      // 清除标志�?
     }
 
 
@@ -326,7 +343,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
@@ -367,7 +384,7 @@ static void MX_FDCAN1_Init(void)
   hfdcan1.Init.MessageRAMOffset = 0;
   hfdcan1.Init.StdFiltersNbr = 0;
   hfdcan1.Init.ExtFiltersNbr = 2;
-  hfdcan1.Init.RxFifo0ElmtsNbr = 2;
+  hfdcan1.Init.RxFifo0ElmtsNbr = 8;
   hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
   hfdcan1.Init.RxFifo1ElmtsNbr = 0;
   hfdcan1.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_8;
@@ -532,6 +549,54 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_DisableFifoMode(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -553,6 +618,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -576,6 +647,8 @@ void fdcanx_send_data(FDCAN_HandleTypeDef *hfdcan, uint32_t id, uint8_t *data, u
   HAL_FDCAN_AddMessageToTxFifoQ(hfdcan, &TxHeader, data)!=HAL_OK;  
 
 }
+
+
 /* USER CODE END 4 */
 
  /* MPU Configuration */

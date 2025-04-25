@@ -34,3 +34,5 @@ jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.
 jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
 jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
+jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
+jybp_gy2\stm32h7xx_hal.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h

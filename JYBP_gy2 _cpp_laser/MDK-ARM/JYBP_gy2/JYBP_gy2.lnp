@@ -22,6 +22,8 @@
 "jybp_gy2\stm32h7xx_hal_exti.o"
 "jybp_gy2\stm32h7xx_hal_tim.o"
 "jybp_gy2\stm32h7xx_hal_tim_ex.o"
+"jybp_gy2\stm32h7xx_hal_uart.o"
+"jybp_gy2\stm32h7xx_hal_uart_ex.o"
 "jybp_gy2\system_stm32h7xx.o"
 "jybp_gy2\cybergear_can_interface_stm32.o"
 "jybp_gy2\cybergear_driver.o"

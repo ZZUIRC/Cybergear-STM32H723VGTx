@@ -35,6 +35,9 @@ jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
 jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
 jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
+jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
+jybp_gy2\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
+jybp_gy2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 jybp_gy2\main.o: ../MDK-ARM/cybergear_can_interface_stm32.h
 jybp_gy2\main.o: ../MDK-ARM/cybergear_can_interface.h
 jybp_gy2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h

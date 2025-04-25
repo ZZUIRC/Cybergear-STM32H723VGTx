@@ -1,6 +1,9 @@
 #include "cybergear_can_interface_stm32.h"
 #include "ad_can.h" // 新增：包含共享頭文件
 
+extern UART_HandleTypeDef huart1; // ??????
+
+
 CybergearCanInterfaceStm32::CybergearCanInterfaceStm32() : CybergearCanInterface() {
 		hfdcan_ = nullptr;
     tx_header_.Identifier = 0;
@@ -27,11 +30,11 @@ bool CybergearCanInterfaceStm32::initCan(FDCAN_HandleTypeDef* hfdcan)
   sFilterConfig.FilterIndex = 1;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  //sFilterConfig.FilterID1 = 0xAA0601;
-  //sFilterConfig.FilterID2 = 0x00FFFFFF;
+  sFilterConfig.FilterID1 = 0xAA0601;
+  sFilterConfig.FilterID2 = 0x00FFFFFF;
 	
-	sFilterConfig.FilterID1 = 0x00;
-  sFilterConfig.FilterID2 = 0x00;
+	//sFilterConfig.FilterID1 = 0x00;
+ // sFilterConfig.FilterID2 = 0x00;
   HAL_FDCAN_ConfigFilter(hfdcan_, &sFilterConfig);
   HAL_FDCAN_ConfigGlobalFilter(hfdcan_, FDCAN_REJECT, FDCAN_REJECT, FDCAN_REJECT_REMOTE, FDCAN_REJECT_REMOTE);
   HAL_FDCAN_ConfigFifoWatermark(hfdcan_, FDCAN_CFG_RX_FIFO0, 1);
@@ -184,10 +187,43 @@ bool CybergearCanInterfaceStm32::support_interrupt()
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
 {
   FDCAN_RxHeaderTypeDef rx_header;
-  uint8_t rx_data[8] = {0x00};
+  
 
   HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &rx_header, rx_data);
   ADcan_data_received = 1;
+	
+//		FDCAN_RxHeaderTypeDef rx_header;
+//    uint8_t rx_data[8] = {0x00};
+//    char buffer[50]; // 定义足够大的缓冲区
+
+//    HAL_StatusTypeDef status = HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &rx_header, rx_data);
+
+//    if (status == HAL_OK)
+//    {
+//        // 使用 sprintf 格式化字符串
+//        int len = sprintf(buffer,
+//                          "Received message:\n"
+//                          "  ID: 0x%lX\n"
+//                          "  DLC: %d\n"
+//                          "  Data: %02X %02X %02X %02X %02X %02X %02X %02X\r\n",
+//                          rx_header.Identifier,
+//                          rx_header.DataLength,
+//                          rx_data[0], rx_data[1], rx_data[2], rx_data[3],
+//                          rx_data[4], rx_data[5], rx_data[6], rx_data[7]);
+
+//        // 使用 HAL_UART_Transmit 发送字符串
+//        HAL_UART_Transmit(&huart1, (uint8_t*)buffer, len, HAL_MAX_DELAY);
+//    }
+//    else
+//    {
+//        // 使用 sprintf 格式化错误信息
+//        int len = sprintf(buffer, "Error reading message from FIFO0. Status: %d\r\n", status);
+
+//        // 使用 HAL_UART_Transmit 发送错误信息
+//        HAL_UART_Transmit(&huart1, (uint8_t*)buffer, len, HAL_MAX_DELAY);
+//    }
+
+//    ADcan_data_received = 1; // 标记消息已接收
 }
 
 

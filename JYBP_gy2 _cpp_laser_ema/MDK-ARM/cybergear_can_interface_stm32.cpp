@@ -27,8 +27,8 @@ bool CybergearCanInterfaceStm32::initCan(FDCAN_HandleTypeDef* hfdcan)
   sFilterConfig.FilterIndex = 1;
   sFilterConfig.FilterType = FDCAN_FILTER_MASK;
   sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  //sFilterConfig.FilterID1 = 0xAA0601;
-  //sFilterConfig.FilterID2 = 0x00FFFFFF;
+  sFilterConfig.FilterID1 = 0xAA0601;
+  sFilterConfig.FilterID2 = 0x00FFFFFF;
 	
 	sFilterConfig.FilterID1 = 0x00;
   sFilterConfig.FilterID2 = 0x00;

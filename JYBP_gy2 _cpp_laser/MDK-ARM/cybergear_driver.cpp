@@ -4,6 +4,9 @@
 
 #include "cybergear_driver_defs.h"
 
+extern UART_HandleTypeDef huart1; // ??????
+
+
 CybergearDriver::CybergearDriver()
 : can_(NULL), master_can_id_(0), target_can_id_(0), run_mode_(MODE_MOTION), send_count_(0)
 {
@@ -192,10 +195,23 @@ void CybergearDriver::Send_ADC_Read()
 
 void CybergearDriver::Read_ADC_Read(unsigned long & id, uint8_t * data, uint8_t & len)
 {
-  if (!can_->read_message(id, data, len))
-  {
-      return;
-  }
+	  char buffer[50]; // 定义缓冲区
+
+    if (!can_->read_message(id, data, len))
+    {
+			 //sprintf(buffer, "Read_ADC_Read: ID = 0x%lX\n", id);
+
+    // 使用 HAL_UART_Transmit 发送字符串
+			HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
+			
+        return;
+    }
+
+    // 使用 sprintf 格式化字符串
+   // sprintf(buffer, "Read_ADC_Read: ID = 0x%lX\n", id);
+
+    // 使用 HAL_UART_Transmit 发送字符串
+    HAL_UART_Transmit(&huart1, (uint8_t*)buffer, strlen(buffer), HAL_MAX_DELAY);
 }
 
 void CybergearDriver::read_ram_data(uint16_t index) //ADread

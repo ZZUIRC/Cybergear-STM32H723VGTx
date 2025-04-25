@@ -4,6 +4,7 @@
 #include "stm32h7xx_hal.h"
 #include "cybergear_can_interface.h"
 #include "string.h"
+#include "stdio.h"
 
 class CybergearCanInterfaceStm32 : public CybergearCanInterface
 {

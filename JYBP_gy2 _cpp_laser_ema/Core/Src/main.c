@@ -60,25 +60,28 @@ FDCAN_HandleTypeDef hfdcan2;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
+UART_HandleTypeDef huart1;
+
 /* USER CODE BEGIN PV */
 
-float laser_ema = 330.0f;   // EMA 值，初始為目標距離 (mm)
-float motor_pos = 0;        // 電機角度 (度)
-float last_ema = 330.0f;    // 上次 EMA 值
+float laser_ema = 330.0f;   // EMA 值，初始為目標距�? (mm)
+float motor_pos = 0;        // 電機角度 (�?)
+float last_ema = 330.0f;    // 上次 EMA �?
 float variance = 0;         // 窗口方差
 float window_data[WINDOW_VAR]; // 方差計算窗口
 uint32_t window_idx = 0;    // 窗口索引
-uint8_t is_stopped = 0;     // 停止狀態標誌
-uint8_t rx_data[8] = {0x00}; // CAN 接收緩衝區
+uint8_t is_stopped = 0;     // 停止�?態標�?
+uint8_t rx_data[8] = {0x00}; // CAN 接收緩衝�?
 uint8_t AD_Return[8] = {0x00};
 uint8_t is_timer2_interrupt_triggered = 0; // Timer 2 1s motor
 uint8_t is_timer3_interrupt_triggered = 0; // AD converter & CAN
-//float ch6_value = 0.0f;     // 激光距離值 (m)
-float ch8_value = 0.0f;     // 第8路模擬量值
+//float ch6_value = 0.0f;     // �?光距離�?? (m)
+float ch8_value = 0.0f;     // �?8路模擬量�?
 volatile uint8_t ADcan_data_received = 0; // CAN 數據接收標誌
-uint32_t control_counter = 0; // 控制計數器
+uint32_t control_counter = 0; // 控制計數�?
 uint32_t sample_count = 0;   // 樣本計數
-float trend = 0.0f;           // 趨勢值 (mm)
+float trend = 0.0f;           // 趨勢�? (mm)
+uint8_t pinState=0;
 
 CybergearCanInterfaceStm32 cybergear_can_interface_1;  //AD_Can  can_1
 CybergearCanInterfaceStm32 cybergear_can_interface_2;  // Motor control can_2
@@ -97,6 +100,7 @@ static void MX_FDCAN1_Init(void);
 static void MX_FDCAN2_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 void process_laser_data(float new_data);
@@ -108,14 +112,14 @@ float calculate_variance(float *buffer, uint32_t size);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    if (htim->Instance == TIM2)  // 检查是否是 TIM2 的中断
+    if (htim->Instance == TIM2)  // �?查是否是 TIM2 的中�?
     {
-        // 设置标志位，通知主循环执行相应逻辑
+        // 设置标志位，通知主循环执行相应�?�辑
         is_timer2_interrupt_triggered = 1;
     }
-    if (htim->Instance == TIM3)  // 检查是否是 TIM3 的中断
+    if (htim->Instance == TIM3)  // �?查是否是 TIM3 的中�?
     {
-        // 设置标志位，通知主循环执行相应逻辑
+        // 设置标志位，通知主循环执行相应�?�辑
         is_timer3_interrupt_triggered = 1;
     }
 }
@@ -137,11 +141,11 @@ float calculate_variance(float *buffer, uint32_t size)
     return sum_sq / size;
 }
 
-// 激光數據處理
+// �?光數據處�?
 
 void process_laser_data(float laserrawdata)
 {
-    // 異常值剔除
+    // 異常值剔�?
     if (fabsf(laserrawdata - TARGET_DISTANCE) > NOISE_THRESHOLD)
     {
         laserrawdata = (window_idx > 0) ? window_data[(window_idx-1) % WINDOW_VAR] : TARGET_DISTANCE;
@@ -149,8 +153,8 @@ void process_laser_data(float laserrawdata)
 
     // 更新窗口
     window_data[window_idx] = laserrawdata;
-    window_idx = (window_idx + 1) % WINDOW_VAR; // 限制在 [0, 1199]
-    if (sample_count < WINDOW_VAR) // 限制不超過 1200
+    window_idx = (window_idx + 1) % WINDOW_VAR; // 限制�? [0, 1199]
+    if (sample_count < WINDOW_VAR) // 限制不超�? 1200
     {
         sample_count++;
     }
@@ -167,18 +171,18 @@ void process_laser_data(float laserrawdata)
     }
 
     // 趨勢計算
-    if (control_counter < CONTROL_INTERVAL) // 限制不超過 600
+    if (control_counter < CONTROL_INTERVAL) // 限制不超�? 600
     {
         control_counter++;
     }
     if (control_counter >= CONTROL_INTERVAL && !is_stopped)
     {
         trend = laser_ema - last_ema;
-        if (trend > TREND_THRESHOLD) // 距離變大，下壓
+        if (trend > TREND_THRESHOLD) // 距離變大，下�?
         {
             motor_pos += 0.1f;
         }
-        else if (trend < -TREND_THRESHOLD) // 距離變小，抬起
+        else if (trend < -TREND_THRESHOLD) // 距離變小，抬�?
         {
             motor_pos -= 0.1f;
         }
@@ -228,6 +232,7 @@ int main(void)
   MX_FDCAN2_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
   HAL_TIM_Base_Start_IT(&htim3);
@@ -255,7 +260,7 @@ int main(void)
   driver2_.enable_motor();
   driver2_.set_run_mode(CMD_CONTROL);
 
-	// 初始化激光窗口
+	// 初始化激光窗�?
     for (uint32_t i = 0; i < WINDOW_VAR; i++)
     {
         window_data[i] = TARGET_DISTANCE;
@@ -270,9 +275,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
+  //  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8);
 		HAL_Delay(500); 
-		GPIO_PinState pinState = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15);
+		pinState = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_8);
 		
     unsigned long id_return_AD;
     uint8_t AD_lens;
@@ -290,7 +295,7 @@ int main(void)
                   driver1_.reset_motor();
                   HAL_Delay(500);
               }        
-        is_timer2_interrupt_triggered = 0;      // 清除标志位
+        is_timer2_interrupt_triggered = 0;      // 清除标志�?
     }
 
     if (is_timer3_interrupt_triggered)
@@ -307,21 +312,16 @@ int main(void)
 						
 			 if (ADcan_data_received)
             {
-              AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
-              ch8_raw = (AD_Return[6] << 8) | AD_Return[7];
+							ch8_raw = (rx_data[6] << 8) | rx_data[7];
               ch8_value = (float)ch8_raw / 1000.0f;
-							process_laser_data( ch8_value);
-              ADcan_data_received = 0; // 清除标志
+              ADcan_data_received = 0; // 
             }
             else
             {
 
             }
 
-     //   unsigned long id_return_AD;
-    //    uint8_t AD_lens;
- //       AD_Can.Read_ADC_Read(id_return_AD,AD_Return,AD_lens);
-        is_timer3_interrupt_triggered = 0;      // 清除标志位
+        is_timer3_interrupt_triggered = 0;      // 清除标志�?
     }
 
    }
@@ -378,7 +378,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
@@ -584,6 +584,54 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief USART1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART1_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART1_Init 0 */
+
+  /* USER CODE END USART1_Init 0 */
+
+  /* USER CODE BEGIN USART1_Init 1 */
+
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 115200;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_UARTEx_DisableFifoMode(&huart1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART1_Init 2 */
+
+  /* USER CODE END USART1_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -596,15 +644,21 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PA15 */
   GPIO_InitStruct.Pin = GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
